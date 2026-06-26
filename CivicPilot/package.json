@@ -1,0 +1,16 @@
+{
+  "name": "civicpilot-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "build:client": "npm run build --prefix client",
+    "build": "npm run build:client",
+    "start": "node server/server.js",
+    "dev": "npm run dev --prefix server & pnpm -C client dev"
+  }
+}
