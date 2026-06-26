@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Trash2, Clock, Plus, ShieldAlert, Award, FileText, CheckCircle2 } from 'lucide-react';
 
@@ -11,7 +11,7 @@ const DOCUMENT_TYPES = [
   { id: 'insurance', name: 'Vehicle Insurance', isPermanent: false, linkProcess: 'driving_license' }
 ];
 
-const DocumentVault = ({ handleSelectProcess, setActiveTab, documentVault = [], setDocumentVault, currentUser }) => {
+const DocumentVault = ({ handleSelectProcess, documentVault = [], setDocumentVault, currentUser }) => {
   const vault = documentVault;
   const saveVault = setDocumentVault;
 
@@ -25,30 +25,35 @@ const DocumentVault = ({ handleSelectProcess, setActiveTab, documentVault = [], 
   const [loadingInsights, setLoadingInsights] = useState(false);
 
   useEffect(() => {
-    if (!currentUser) {
-      setInsights(null);
-      return;
-    }
-
+    let active = true;
     const fetchInsights = async () => {
+      await Promise.resolve();
+      if (!active) return;
+      if (!currentUser) {
+        setInsights(null);
+        return;
+      }
       setLoadingInsights(true);
       try {
         const res = await fetch('/api/vault/insights');
-        if (res.ok) {
+        if (res.ok && active) {
           const data = await res.json();
           setInsights(data);
-        } else {
+        } else if (active) {
           setInsights(null);
         }
       } catch (err) {
         console.warn("Could not load MongoDB insights:", err);
-        setInsights(null);
+        if (active) setInsights(null);
       } finally {
-        setLoadingInsights(false);
+        if (active) setLoadingInsights(false);
       }
     };
 
     fetchInsights();
+    return () => {
+      active = false;
+    };
   }, [vault, currentUser]);
 
   // 3. Expiry and Status Math

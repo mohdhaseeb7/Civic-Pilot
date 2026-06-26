@@ -12,5 +12,8 @@
     "build": "npm run build:client",
     "start": "node server/server.js",
     "dev": "npm run dev --prefix server & pnpm -C client dev"
+  },
+  "dependencies": {
+    "civicpilot-monorepo": "link:"
   }
 }

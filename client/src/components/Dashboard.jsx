@@ -7,7 +7,6 @@ import {
   FileText, 
   ClipboardList, 
   FolderClosed, 
-  HelpCircle, 
   ExternalLink, 
   Compass,
   MessageSquare
@@ -38,8 +37,6 @@ const Dashboard = ({
   verifiedDocs = {},
   csrfToken,
   setIsChatOpen,
-  documentVault,
-  setDocumentVault,
   currentUser
 }) => {
   return (

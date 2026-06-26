@@ -1,31 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Search,
-  AlertTriangle,
-  RefreshCw,
-  ArrowLeft,
-  Trash2,
   Compass,
   Clock,
-  IndianRupee,
   History,
-  Bookmark,
-  FolderOpen,
   Plane,
   Briefcase,
   FileText,
   UserCheck,
   Percent,
   FileDown,
-  Landmark,
-  ClipboardList,
-  FolderClosed,
-  HelpCircle,
-  Lightbulb,
-  Lock,
-  ExternalLink,
-  Loader2,
   X
 } from 'lucide-react';
 

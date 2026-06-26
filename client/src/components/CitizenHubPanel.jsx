@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThumbsUp, Star, MessageSquare, MapPin, Clock, Plus, AlertCircle, CheckCircle, Search, ChevronDown, ChevronUp, UserCheck, HelpCircle } from 'lucide-react';
 
@@ -316,8 +316,18 @@ const CitizenHubPanel = ({ processId, csrfToken, currentUser }) => {
 
   // Initial load
   useEffect(() => {
-    fetchTips();
-    fetchQuestions();
+    let active = true;
+    const loadData = async () => {
+      await Promise.resolve();
+      if (!active) return;
+      fetchTips();
+      fetchQuestions();
+    };
+    loadData();
+    return () => {
+      active = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [processId, selectedCategory, sortBy]);
 
   return (
@@ -372,6 +382,23 @@ const CitizenHubPanel = ({ processId, csrfToken, currentUser }) => {
             )}
           </button>
         </div>
+
+        {tips.length > 0 && stats.totalReviews > 0 && (
+          <div className="grid grid-cols-3 gap-2.5 p-3 rounded-xl border border-brass/20 bg-[#FAF9F5] text-ink font-mono text-[9px] uppercase font-bold">
+            <div className="flex flex-col items-center justify-center p-1.5 border-r border-dashed border-brass/20">
+              <span className="text-brass text-xs">{stats.avgDays.toFixed(1)} Days</span>
+              <span className="text-[7px] text-ink/50">Avg Wait Time</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-1.5 border-r border-dashed border-brass/20">
+              <span className="text-brass text-xs">{stats.minDays} - {stats.maxDays} Days</span>
+              <span className="text-[7px] text-ink/50">Range (Min - Max)</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-1.5">
+              <span className="text-brass text-xs">{stats.totalReviews} Reports</span>
+              <span className="text-[7px] text-ink/50">Citizen Logs</span>
+            </div>
+          </div>
+        )}
 
         {/* Share Experience Form */}
         <AnimatePresence>
