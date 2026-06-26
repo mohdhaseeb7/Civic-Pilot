@@ -4,13 +4,9 @@
   "private": true,
 
   "scripts": {
-    "install:all": "npm install",
-    "build:client": "npm run build --prefix client",
-    "build": "npm run build:client",
+    "build:client": "pnpm --filter client build",
+    "build": "pnpm run build:client",
     "start": "node server/server.js",
-    "dev": "npm run dev --prefix server & pnpm -C client dev"
-  },
-  "dependencies": {
-    "civicpilot-monorepo": "link:"
+    "dev": "pnpm --filter server dev & pnpm --filter client dev"
   }
 }
